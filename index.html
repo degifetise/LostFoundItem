@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lost & Found Hub</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+
+  <style>
+    body{
+      transition: background .3s,color .3s;
+    }
+
+    .glass{
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.08);
+    }
+
+    .dark .glass{
+      background: rgba(0,0,0,.35);
+    }
+
+    .card-hover{
+      transition: all .3s ease;
+    }
+
+    .card-hover:hover{
+      transform: translateY(-8px);
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-white min-h-screen">
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
+
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+
+    <!-- LOGO -->
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white">
+        <i class="fa-solid fa-box-open text-xl"></i>
+      </div>
+
+      <div>
+        <h1 class="text-2xl font-bold">Lost & Found</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Recover what matters
+        </p>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="hidden md:flex flex-1 max-w-xl relative">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        class="w-full pl-12 pr-4 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="flex items-center gap-3">
+
+      <!-- DARK MODE -->
+      <button
+        id="themeToggle"
+        class="w-11 h-11 rounded-xl bg-gray-200 dark:bg-gray-800"
+      >
+        <i class="fa-solid fa-moon"></i>
+      </button>
+
+      <!-- REGISTER -->
+      <button
+        id="registerBtn"
+        class="px-4 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-medium transition"
+      >
+        <i class="fa-solid fa-user-plus mr-2"></i>
+        Register
+      </button>
+
+      <!-- UPLOAD -->
+      <button
+        id="openUploadBtn"
+        class="px-4 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition"
+      >
+        <i class="fa-solid fa-upload mr-2"></i>
+        Upload
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="max-w-7xl mx-auto px-4 py-10">
+
+  <div class="glass rounded-3xl border border-gray-200 dark:border-gray-800 p-8">
+
+    <div class="grid lg:grid-cols-2 gap-10 items-center">
+
+      <!-- LEFT -->
+      <div>
+
+        <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">
+          Find Lost Items
+          <span class="text-indigo-600">Fast & Easy</span>
+        </h2>
+
+        <p class="mt-6 text-lg text-gray-600 dark:text-gray-300">
+          Upload lost or found products and help people reconnect with their belongings.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+
+          <button
+            id="heroUploadBtn"
+            class="px-6 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+          >
+            <i class="fa-solid fa-cloud-arrow-up mr-2"></i>
+            Upload Item
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="grid grid-cols-2 gap-4">
+
+        <div class="bg-indigo-600 text-white rounded-3xl p-6">
+          <i class="fa-solid fa-wallet text-4xl"></i>
+          <h3 class="mt-4 text-2xl font-bold">Wallet</h3>
+          <p class="mt-2 opacity-80">Lost near cafeteria.</p>
+        </div>
+
+        <div class="bg-purple-600 text-white rounded-3xl p-6">
+          <i class="fa-solid fa-mobile-screen text-4xl"></i>
+          <h3 class="mt-4 text-2xl font-bold">Phone</h3>
+          <p class="mt-2 opacity-80">Found near library.</p>
+        </div>
+
+        <div class="bg-pink-600 text-white rounded-3xl p-6">
+          <i class="fa-solid fa-key text-4xl"></i>
+          <h3 class="mt-4 text-2xl font-bold">Keys</h3>
+          <p class="mt-2 opacity-80">Recently recovered.</p>
+        </div>
+
+        <div class="bg-cyan-600 text-white rounded-3xl p-6">
+          <i class="fa-solid fa-laptop text-4xl"></i>
+          <h3 class="mt-4 text-2xl font-bold">Laptop</h3>
+          <p class="mt-2 opacity-80">Missing from lecture hall.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= FILTERS ================= -->
+<section class="max-w-7xl mx-auto px-4">
+
+  <!-- MOBILE SEARCH -->
+  <div class="md:hidden relative mb-5">
+
+    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+    <input
+      type="text"
+      id="mobileSearchInput"
+      placeholder="Search items..."
+      class="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900"
+    />
+  </div>
+
+  <!-- FILTER BUTTONS -->
+  <div class="flex flex-wrap gap-3 justify-center">
+
+    <button
+      class="filter-btn px-5 py-3 rounded-2xl bg-indigo-600 text-white"
+      data-category="All"
+    >
+      All
+    </button>
+
+    <button
+      class="filter-btn px-5 py-3 rounded-2xl bg-gray-200 dark:bg-gray-800"
+      data-category="Lost"
+    >
+      <i class="fa-solid fa-circle-exclamation mr-2"></i>
+      Lost
+    </button>
+
+    <button
+      class="filter-btn px-5 py-3 rounded-2xl bg-gray-200 dark:bg-gray-800"
+      data-category="Found"
+    >
+      <i class="fa-solid fa-circle-check mr-2"></i>
+      Found
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ================= PRODUCT GRID ================= -->
+<main class="max-w-7xl mx-auto px-4 py-10">
+
+  <div
+    id="productGrid"
+    class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  ></div>
+
+</main>
+
+<!-- ================= REGISTER MODAL ================= -->
+<div
+  id="registerModal"
+  class="fixed inset-0 hidden z-50 bg-black/60 flex items-center justify-center p-4"
+>
+
+  <div
+    id="registerContent"
+    class="w-full max-w-md rounded-3xl bg-white dark:bg-gray-900 p-6"
+  >
+
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold">
+        Register User
+      </h2>
+
+      <button id="closeRegisterBtn">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+
+    <form id="registerForm" class="space-y-4">
+
+      <input
+        type="text"
+        id="regName"
+        placeholder="Full Name"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <input
+        type="email"
+        id="regEmail"
+        placeholder="Email Address"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <input
+        type="password"
+        id="regPassword"
+        placeholder="Password"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <button
+        type="submit"
+        class="w-full py-4 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-semibold"
+      >
+        Register
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- ================= UPLOAD MODAL ================= -->
+<div
+  id="uploadModal"
+  class="fixed inset-0 hidden z-50 bg-black/60 flex items-center justify-center p-4"
+>
+
+  <div
+    id="modalContent"
+    class="w-full max-w-2xl rounded-3xl bg-white dark:bg-gray-900 overflow-hidden"
+  >
+
+    <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+
+      <div>
+        <h2 class="text-2xl font-bold">
+          Upload Item
+        </h2>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Share lost or found products
+        </p>
+      </div>
+
+      <button id="closeModalBtn">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+    </div>
+
+    <form id="uploadForm" class="p-6 space-y-5">
+
+      <input
+        type="file"
+        id="productImage"
+        accept="image/*"
+        class="w-full p-3 rounded-2xl border border-gray-300 dark:border-gray-700"
+        required
+      />
+
+      <input
+        type="text"
+        id="productName"
+        placeholder="Product Name"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <select
+        id="productCategory"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+      >
+        <option value="Lost">Lost</option>
+        <option value="Found">Found</option>
+      </select>
+
+      <textarea
+        id="productDescription"
+        rows="4"
+        placeholder="Description..."
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      ></textarea>
+
+      <button
+        type="submit"
+        class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+      >
+        Upload Item
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- ================= CONTACT MODAL ================= -->
+<div
+  id="contactModal"
+  class="fixed inset-0 hidden z-50 bg-black/60 flex items-center justify-center p-4"
+>
+
+  <div
+    id="contactContent"
+    class="w-full max-w-md rounded-3xl bg-white dark:bg-gray-900 p-6"
+  >
+
+    <div class="flex items-center justify-between mb-6">
+
+      <h2 class="text-2xl font-bold">
+        Contact Owner
+      </h2>
+
+      <button id="closeContactBtn">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
+    </div>
+
+    <form id="contactForm" class="space-y-4">
+
+      <input
+        type="text"
+        placeholder="Your Name"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <input
+        type="email"
+        placeholder="Your Email"
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      />
+
+      <textarea
+        rows="4"
+        placeholder="Write your message..."
+        class="w-full p-4 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-950"
+        required
+      ></textarea>
+
+      <button
+        type="submit"
+        class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+      >
+        Submit Message
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+
+  <div class="max-w-7xl mx-auto px-4 py-12 text-center text-gray-500 dark:text-gray-400">
+    © 2026 Lost & Found Hub. All rights reserved.
+  </div>
+
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+
+  // ==========================================
+  // USER REGISTERED
+  // ==========================================
+
+  let isRegistered = false;
+
+  // ==========================================
+  // DATA
+  // ==========================================
+
+  let products = [
+
+    {
+      id:1,
+      name:"Black Wallet",
+      category:"Lost",
+      description:"Lost near cafeteria yesterday evening.",
+      image:"https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=1000&auto=format&fit=crop"
+    },
+
+    {
+      id:2,
+      name:"iPhone 14",
+      category:"Found",
+      description:"Found beside university library.",
+      image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop"
+    },
+
+    {
+      id:3,
+      name:"Silver Keys",
+      category:"Lost",
+      description:"Keychain with blue tag.",
+      image:"https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=1000&auto=format&fit=crop"
+    }
+
+  ];
+
+  let currentFilter = "All";
+
+  // ==========================================
+  // DOM
+  // ==========================================
+
+  const productGrid = document.getElementById("productGrid");
+  const searchInput = document.getElementById("searchInput");
+  const mobileSearchInput = document.getElementById("mobileSearchInput");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  const uploadModal = document.getElementById("uploadModal");
+  const registerModal = document.getElementById("registerModal");
+  const contactModal = document.getElementById("contactModal");
+
+  // ==========================================
+  // RENDER PRODUCTS
+  // ==========================================
+
+  function renderProducts(){
+
+    const query =
+      (searchInput.value || mobileSearchInput.value).toLowerCase();
+
+    const filtered = products.filter(item => {
+
+      const matchesSearch =
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query);
+
+      const matchesCategory =
+        currentFilter === "All" ||
+        item.category === currentFilter;
+
+      return matchesSearch && matchesCategory;
+
+    });
+
+    productGrid.innerHTML = "";
+
+    filtered.forEach((item,index)=>{
+
+      const card = document.createElement("div");
+
+      card.className =
+        "card-hover rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg";
+
+      card.innerHTML = `
+        <div class="relative h-56 overflow-hidden">
+
+          <img
+            src="${item.image}"
+            class="w-full h-full object-cover"
+          />
+
+          <div class="absolute top-4 left-4">
+
+            <span class="
+              px-4 py-1 rounded-full text-sm font-semibold
+              ${item.category==="Lost"
+                ? "bg-red-500 text-white"
+                : "bg-green-500 text-white"}
+            ">
+              ${item.category}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="p-5">
+
+          <h3 class="text-xl font-bold">
+            ${item.name}
+          </h3>
+
+          <p class="mt-3 text-gray-600 dark:text-gray-300 text-sm">
+            ${item.description}
+          </p>
+
+          <button
+            class="contactBtn mt-5 w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium"
+          >
+            <i class="fa-solid fa-phone mr-2"></i>
+            Contact Owner
+          </button>
+
+        </div>
+      `;
+
+      productGrid.appendChild(card);
+
+      gsap.from(card,{
+        opacity:0,
+        y:30,
+        duration:.5,
+        delay:index*.08
+      });
+
+    });
+
+    // CONTACT BUTTON EVENTS
+    document.querySelectorAll(".contactBtn").forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+        contactModal.classList.remove("hidden");
+
+        gsap.fromTo(
+          "#contactContent",
+          {
+            scale:.7,
+            opacity:0
+          },
+          {
+            scale:1,
+            opacity:1,
+            duration:.4
+          }
+        );
+
+      });
+
+    });
+
+  }
+
+  // ==========================================
+  // SEARCH
+  // ==========================================
+
+  searchInput.addEventListener("input",renderProducts);
+  mobileSearchInput.addEventListener("input",renderProducts);
+
+  // ==========================================
+  // FILTERS
+  // ==========================================
+
+  filterButtons.forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+      filterButtons.forEach(b=>{
+        b.classList.remove("bg-indigo-600","text-white");
+        b.classList.add("bg-gray-200","dark:bg-gray-800");
+      });
+
+      btn.classList.remove("bg-gray-200","dark:bg-gray-800");
+      btn.classList.add("bg-indigo-600","text-white");
+
+      currentFilter = btn.dataset.category;
+
+      renderProducts();
+
+    });
+
+  });
+
+  // ==========================================
+  // DARK MODE
+  // ==========================================
+
+  document.getElementById("themeToggle")
+  .addEventListener("click",()=>{
+
+    document.documentElement.classList.toggle("dark");
+
+    localStorage.setItem(
+      "theme",
+      document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light"
+    );
+
+  });
+
+  if(localStorage.getItem("theme")==="dark"){
+    document.documentElement.classList.add("dark");
+  }
+
+  // ==========================================
+  // REGISTER MODAL
+  // ==========================================
+
+  const registerBtn =
+    document.getElementById("registerBtn");
+
+  registerBtn.addEventListener("click",()=>{
+
+    registerModal.classList.remove("hidden");
+
+    gsap.fromTo(
+      "#registerContent",
+      {
+        scale:.7,
+        opacity:0
+      },
+      {
+        scale:1,
+        opacity:1,
+        duration:.4
+      }
+    );
+
+  });
+
+  document.getElementById("closeRegisterBtn")
+  .addEventListener("click",()=>{
+
+    registerModal.classList.add("hidden");
+
+  });
+
+  // REGISTER FORM
+  document.getElementById("registerForm")
+  .addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    isRegistered = true;
+
+    alert("Registration successful!");
+
+    registerModal.classList.add("hidden");
+
+  });
+
+  // ==========================================
+  // UPLOAD MODAL
+  // ==========================================
+
+  function openUploadModal(){
+
+    if(!isRegistered){
+
+      alert("Please register first before uploading.");
+
+      registerModal.classList.remove("hidden");
+
+      return;
+    }
+
+    uploadModal.classList.remove("hidden");
+
+    gsap.fromTo(
+      "#modalContent",
+      {
+        scale:.7,
+        opacity:0
+      },
+      {
+        scale:1,
+        opacity:1,
+        duration:.4
+      }
+    );
+
+  }
+
+  document.getElementById("openUploadBtn")
+  .addEventListener("click",openUploadModal);
+
+  document.getElementById("heroUploadBtn")
+  .addEventListener("click",openUploadModal);
+
+  document.getElementById("closeModalBtn")
+  .addEventListener("click",()=>{
+
+    uploadModal.classList.add("hidden");
+
+  });
+
+  // ==========================================
+  // UPLOAD FORM
+  // ==========================================
+
+  document.getElementById("uploadForm")
+  .addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    const file =
+      document.getElementById("productImage").files[0];
+
+    const name =
+      document.getElementById("productName").value;
+
+    const category =
+      document.getElementById("productCategory").value;
+
+    const description =
+      document.getElementById("productDescription").value;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+
+      products.unshift({
+
+        id:Date.now(),
+        name,
+        category,
+        description,
+        image:event.target.result
+
+      });
+
+      renderProducts();
+
+      document.getElementById("uploadForm").reset();
+
+      uploadModal.classList.add("hidden");
+
+      alert("Product uploaded successfully!");
+
+    };
+
+    if(file){
+      reader.readAsDataURL(file);
+    }
+
+  });
+
+  // ==========================================
+  // CONTACT FORM
+  // ==========================================
+
+  document.getElementById("closeContactBtn")
+  .addEventListener("click",()=>{
+
+    contactModal.classList.add("hidden");
+
+  });
+
+  document.getElementById("contactForm")
+  .addEventListener("submit",(e)=>{
+
+    e.preventDefault();
+
+    alert("Submitted Successfully!");
+
+    contactModal.classList.add("hidden");
+
+  });
+
+  // ==========================================
+  // PAGE LOAD ANIMATION
+  // ==========================================
+
+  gsap.from("header",{
+    y:-100,
+    opacity:0,
+    duration:1
+  });
+
+  gsap.from("section",{
+    opacity:0,
+    y:40,
+    duration:1,
+    stagger:.2
+  });
+
+  gsap.from("footer",{
+    opacity:0,
+    y:50,
+    duration:1
+  });
+
+  // INITIAL
+  renderProducts();
+
+</script>
+
+</body>
+</html>
